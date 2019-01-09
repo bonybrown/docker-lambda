@@ -11,7 +11,8 @@ RUN rm -rf /var/runtime /var/lang /var/rapid && \
   curl https://lambci.s3.amazonaws.com/fs/ruby2.5.tgz | tar -zx -C /
 
 # Add these as a separate layer as they get updated frequently
-RUN gem update --system --no-document && \
+RUN umask 022 && \
+  gem update --system --no-document && \
   gem install --no-document bundler && \
   curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | python && \
   pip install -U awscli boto3 aws-sam-cli==0.10.0 aws-lambda-builders==0.0.5 --no-cache-dir
